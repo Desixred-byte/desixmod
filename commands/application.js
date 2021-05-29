@@ -4,7 +4,7 @@ module.exports = {
     name: 'apply',
     cooldown: '5m',
     dmOnly: 'false',
-    category: "Applications",
+    category: "Applications", 
     run: async({ message, args, client, handler }) => {
         message.reply('Check your DMs , We will start the application in your DMs!');
         const questions = [

@@ -50,7 +50,7 @@ client.on('ready', async () => {
 
 
 // You can get your token by making an application at discord.dev/applications.
-client.login("ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.Wyqp2fmeABQcYfh8ZGsfMVkci7Q");
+client.login("ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.TtUeZCRRZ4EOm4-VLeGBp_dCPaM");
 
 // Requires Manager from discord-giveaways
 const { GiveawaysManager } = require('discord-giveaways');
@@ -80,5 +80,3 @@ client.on("ready", () =>{
     });
  });
 
-
- 
