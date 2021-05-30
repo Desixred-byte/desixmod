@@ -10,7 +10,7 @@ const loadFeatures = require('./features/load-features')
 const client = new Client(),
     settings = {
         prefix: 'g!',
-        token: 'ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.7kLiOeFFhBawe4oAQkwsFWSdOlE'
+        token: 'ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.Mhm-WBLjgIi5zMBjun8R3DBzUbs'
     };
 
 client.modlogs = '838283642178109531'
