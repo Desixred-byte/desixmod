@@ -10,7 +10,7 @@ const loadFeatures = require('./features/load-features')
 const client = new Client(),
     settings = {
         prefix: 'g!',
-        token: 'ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.Wyqp2fmeABQcYfh8ZGsfMVkci7Q'
+        token: 'ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.7kLiOeFFhBawe4oAQkwsFWSdOlE'
     };
 
 client.modlogs = '838283642178109531'
@@ -50,7 +50,7 @@ client.on('ready', async () => {
 
 
 // You can get your token by making an application at discord.dev/applications.
-client.login("ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.TtUeZCRRZ4EOm4-VLeGBp_dCPaM");
+client.login("ODAxODcwNDg5MzQxNTI2MDM3.YAm-Fg.7kLiOeFFhBawe4oAQkwsFWSdOlE");
 
 // Requires Manager from discord-giveaways
 const { GiveawaysManager } = require('discord-giveaways');
