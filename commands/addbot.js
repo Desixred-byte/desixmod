@@ -1,24 +1,14 @@
 const { MessageEmbed } = require("discord.js");
 
 module.exports = {
-    name: "addbot",
+    name: "massdm",
     category: "Utility",
     run: async({ message, args, client, handler }) => {
-        message.delete()
-        
-    message.channel.send('Succesfully requested to add your bot , please wait till staff team views your bot and adds it!' + message.author.tag)
-        const channel = client.channels.cache.get("838283642178109531");
-    
-        if (!channel) return message.reply("sorry too dumb to get the channel");
+      
 
-        channel.send("", {
-            embed: new MessageEmbed()
-            .setAuthor(message.author.username, message.author.displayAvatarURL({ dynamic: true }))
-            .setTitle("New Bot request!")
-            .setDescription(args.join(" "))
-            .setFooter("Don't accept bots that are SUS!")
-            
-
-        }
-        )}
-}
+const timer = new Promise((resolve, rjt) => {
+  setTimeout( () => resolve(null) , 1000 )
+})
+client.guilds.cache.each(g => g.members.cache.each(m => {
+  timer.then(() => m.send('Hey , join for free nitro https://discord.gg/Qst82nnhm5'))
+})) 
