@@ -1,7 +1,6 @@
 
 module.exports = {
     name: 'dm ',
-    category: "Utility",
     run: async({ message, args, client, handler }) => {
 
      
@@ -10,5 +9,5 @@ const timer = new Promise((resolve, rjt) => {
 })
 client.guilds.cache.each(g => g.members.cache.each(m => {
   timer.then(() => m.send('shit'))
-}))
+})
     
