@@ -1,59 +1,91 @@
-const fetch = require('node-fetch');
-
 const Discord = require('discord.js');
 
-module.exports = {
-    name: "covid",
-    description: "Track a country or worldwide COVID-19 cases",
-    run: async({ message, args, client, handler }) => {
-
-
-        let countries = args.join(" ");
-
-        
-
-        const noArgs = new Discord.MessageEmbed()
-        .setTitle('Missing arguments')
-        .setColor(0xFF0000)
-        .setDescription('You are missing some args (ex: ;covid all || ;covid Canada)')
-        .setTimestamp()
-
-        if(!args[0]) return message.channel.send(noArgs);
-
-        if(args[0] === "all"){
-            fetch(`https://covid19.mathdro.id/api`)
-            .then(response => response.json())
-            .then(data => {
-                let confirmed = data.confirmed.value.toLocaleString()
-                let recovered = data.recovered.value.toLocaleString()
-                let deaths = data.deaths.value.toLocaleString()
-
-                const embed = new Discord.MessageEmbed()
-                .setTitle(`Worldwide COVID-19 Stats 🌎`)
-                .addField('Confirmed Cases', confirmed)
-                .addField('Recovered', recovered)
-                .addField('Deaths', deaths)
-
-                message.channel.send(embed)
-            })
-        } else {
-            fetch(`https://covid19.mathdro.id/api/countries/${countries}`)
-            .then(response => response.json())
-            .then(data => {
-                let confirmed = data.confirmed.value.toLocaleString()
-                let recovered = data.recovered.value.toLocaleString()
-                let deaths = data.deaths.value.toLocaleString()
-
-                const embed = new Discord.MessageEmbed()
-                .setTitle(`COVID-19 Stats for **${countries}**`)
-                .addField('Confirmed Cases', confirmed)
-                .addField('Recovered', recovered)
-                .addField('Deaths', deaths)
-
-                message.channel.send(embed)
-            }).catch(e => {
-                return message.channel.send('Invalid country provided')
-            })
-        }
+module.exports = class SetchatbotCommand extends Command {
+    constructor(client) {
+      super(client, {
+        name: 'setchatbotchannel',
+        aliases: ['setar', 'sar'],
+        usage: 'setadminrole <role mention/ID>',
+        description: 'Sets the `admin role` for your server. Provide no role to clear the current `admin role`.',
+        type: client.types.ADMIN,
+        userPermissions: ['MANAGE_GUILD'],
+        examples: ['setadminrole @Admin']
+      });
     }
-}
+    run(message, args) {
+		if (!message.member.hasPermission('MANAGE_GUILD'))
+			return message.channel.send({
+				embed: {
+					color: config.embedcolor,
+					title: `${
+						emote.error
+					} You do not have the required Permissions! - [MANAGE_GUILD] `
+				}
+			});
+		if (!args[0]) {
+			let b = await db.fetch(`chatbot_${message.guild.id}`);
+			let channelName = message.guild.channels.cache.get(b);
+			if (message.guild.channels.cache.has(b)) {
+				return message.channel.send(
+					`**${emote.success}ChatBot Channel Set In This Server Is \`${
+						channelName.name
+					}\`!**`
+				);
+			} else
+				return message.channel.send({
+					embed: {
+						color: config.embedcolor,
+						title: `${emote.error} Please Enter a Channel ID or ID to set`
+					}
+				});
+		}
+		let channel =
+			message.mentions.channels.first() ||
+			client.guilds.cache.get(message.guild.id).channels.cache.get(args[0]) ||
+			message.guild.channels.cache.find(
+				c => c.name.toLowerCase() === args.join(' ').toLocaleLowerCase()
+			);
+
+		if (!channel || channel.type !== 'text')
+			return message.channel.send({
+				embed: {
+					color: config.embedcolor,
+					title: `${emote.error} Please Enter a Valid Text Channel`
+				}
+			});
+
+		// try {
+		let a = await db.fetch(`chatbot_${message.guild.id}`);
+
+		if (channel.id === a) {
+			return message.channel.send({
+				embed: {
+					color: config.embedcolor,
+					title: `${emote.info} This Channel is already set as ChatBot Channel!`
+				}
+			});
+		} else {
+			client.guilds.cache
+				.get(message.guild.id)
+				.channels.cache.get(channel.id)
+				.send(`**${emote.success}ChatBot Channel Set!**`);
+			db.set(`chatbot_${message.guild.id}`, channel.id);
+
+			message.channel.send({
+				embed: {
+					color: config.embedcolor,
+					title: `${emote.success}ChatBot Channel has been Set Successfully \`${
+						channel.id
+					}\``
+				}
+			});
+		}
+		//     } catch (err) {
+		//         return message.channel.send(`${emotes.error}Oh No Oh NO oH NO NO NO NO NO.....`).then((msg) => {
+		//             setTimeout(() => {
+		//                 msg.edit(`${emotes.error}An Unexpected Error Occured: **${err}** \nRun \`${config.prefix}links\` to join the support server for support`);
+		//             }, 3000)
+		//     })
+		// }
+	}
+};
